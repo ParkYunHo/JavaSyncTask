@@ -23,7 +23,7 @@ public class completableFutureHandler {
 			result = "error";
 		}
 		
-		logger.info(method);
+		logger.info("CompletableFuture: " + method);
 		return CompletableFuture.completedFuture(result);
 	}
 	

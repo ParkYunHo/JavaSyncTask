@@ -13,7 +13,6 @@ import com.sync.threadsync.service.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ThreadsyncApplicationTests {
-
 	private final Logger logger = Logger.getLogger("ThreadsyncApplicationTests"); 
 	
 	@Autowired
@@ -36,12 +35,12 @@ public class ThreadsyncApplicationTests {
 		CompletableFuture<String> method3 = completableFutureHandler.findMethod("method3");
 		CompletableFuture<String> error = completableFutureHandler.findMethod("method4");
 		
-		CompletableFuture.allOf(method1, method2, method3, error).join();
+		// 모든 Thread가 종료되면 끝난다. (allOf)
+//		CompletableFuture.allOf(method1, method2, method3, error).join();
+		// Thread중 하나라도 Task가 완료되면 해당 Task를 리턴하고 끝낸다. (anyOf)
+		CompletableFuture first_task = (CompletableFuture) CompletableFuture.anyOf(method1, method2, method3, error);
 		
-		System.out.println(method1.get());
-		System.out.println(method2.get());
-		System.out.println(method3.get());
-		System.out.println(error.get());
+		logger.info("first Task: " + first_task.get());
 	}
 
 }
